@@ -29,7 +29,7 @@ const EcommerceHero: React.FC = () => {
     { name: "HOME", to: "/", hasDropdown: true },
     { name: "SHOP", to: "/shop", hasDropdown: true },
     { name: "PAGES", to: "/pages", hasDropdown: true },
-    { name: "BLOG", path: "/BlogApp", hasDropdown: true },
+    { name: "BLOG", to: "/BLOG", hasDropdown: true },
     { name: "ELEMENTS", to: "/elements", hasDropdown: true },
     { name: "BUY NOW", to: "/buy", hasDropdown: false }
   ];

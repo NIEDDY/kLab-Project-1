@@ -3,8 +3,8 @@ import LayoutHandling from "./LayoutForder/Layout";
 import EcommerceHero from "./components/Ecommerce";
 import Contact from "./components/Contact";
 import  BlogApp from "./components/Blog";
-
 import ProductCard from "./components/product";
+import Elements from "./components/Element";
 
 
 function App() {
@@ -17,8 +17,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/product" element={<ProductCard/>}/>
           <Route path="/blog" element={<BlogApp/>}/>
+          <Route path="/elements" element={<Elements/>}/>
           
-          {/* Add more routes as needed */}
+         
           
         </Route>
       </Routes>
