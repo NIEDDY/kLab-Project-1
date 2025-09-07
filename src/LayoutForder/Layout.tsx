@@ -5,7 +5,7 @@ import Topbar from "../components/Topbar";
 import BlogPost from "../components/Blog";
 
 import ProductCard from "../components/product";
-
+import BestSellingProducts from "../components/sellingproduct";
 
 const LayoutHandling = () => {
     return (
@@ -19,6 +19,7 @@ const LayoutHandling = () => {
             {/* Optionally include Contact here or in specific routes */}
             {/* <Contact /> */}
          <ProductCard/>
+         <BestSellingProducts/>
          
             <Footer />
 
