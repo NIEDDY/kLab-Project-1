@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"; // ✅ import Link
 
 const Topbar: React.FC = () => {
   return (
@@ -17,7 +18,11 @@ const Topbar: React.FC = () => {
         <span>WELCOME TO OUR STORE!</span>
         <a href="#" className="hover:underline">BLOG</a>
         <a href="#" className="hover:underline">FAQ</a>
-        <a href="#" className="hover:underline">CONTACT US</a>
+
+     
+        <Link to="/Contact" className="hover:underline">
+          CONTACT US
+        </Link>
       </div>
     </div>
   );

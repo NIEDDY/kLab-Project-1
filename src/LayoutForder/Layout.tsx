@@ -6,6 +6,10 @@ import BlogPost from "../components/Blog";
 
 import ProductCard from "../components/product";
 import BestSellingProducts from "../components/sellingproduct";
+import Product1 from "../components/freeshiping";
+
+
+
 
 const LayoutHandling = () => {
     return (
@@ -20,6 +24,8 @@ const LayoutHandling = () => {
             {/* <Contact /> */}
          <ProductCard/>
          <BestSellingProducts/>
+            <Product1/>
+         
          
             <Footer />
 

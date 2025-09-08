@@ -26,7 +26,7 @@ const EcommerceHero: React.FC = () => {
   ];
 
   const navigationItems = [
-    { name: "HOME", to: "/", hasDropdown: true },
+    { name: "HOME", to: "/home", hasDropdown: true },
     { name: "SHOP", to: "/shop", hasDropdown: true },
     { name: "PAGES", to: "/pages", hasDropdown: true },
     { name: "BLOG", to: "/BLOG", hasDropdown: true },
@@ -163,20 +163,21 @@ const EcommerceHero: React.FC = () => {
      
       </div>
        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="flex space-x-10">
-          <Card
-            title="DIGITAL SMART"
-            subtitle="WIRELESS SPEAKER"
-            discount="MIN. 30-75% OFF"
-            image="speaker.jpg" 
-          />
-          <Card
-            title="DIGITAL SMART"
-            subtitle="SMART WATCH"
-            discount="MIN. 30-75% OFF"
-            image="watch.jpg" 
-          />
-        </div>
+        <div className="flex justify-center gap-6 px-6 py-10">
+  <Card
+    title="DIGITAL SMART"
+    subtitle="WIRELESS SPEAKER"
+    discount="MIN. 30-75% OFF"
+    image="speaker.jpg"
+  />
+  <Card
+    title="DIGITAL SMART"
+    subtitle="SMART WATCH"
+    discount="MIN. 30-75% OFF"
+    image="watch.jpg"
+  />
+</div>
+
       </div>
     </div>
   );
