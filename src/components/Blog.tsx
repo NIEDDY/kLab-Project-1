@@ -1,322 +1,318 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Calendar, User, MessageCircle, Heart, Eye } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight, MessageCircle, Flame, Clock, Eye, Calendar, User } from "lucide-react";
+import image2 from "../assets/blog1.jpg";
+import image3 from "../assets/blog2.jpg";
+import image4 from "../assets/blog3.jpg";
 
-// Your BlogApp component code here
+ // duplicate just for demo
 
 
-interface BlogPost {
-  id: number;
-  title: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  image: string;
-  categories: string[];
-  views: number;
-  likes: number;
-  comments: number;
-}
 
-interface Comment {
-  id: number;
-  postId: number;
-  author: string;
-  content: string;
-  date: string;
-}
+const blogImages = [
+  image2,
+  image3,
+  image4,
+  
+];
 
-const BlogApp: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<'recent' | 'popular' | 'comments'>('recent');
 
-  const blogPosts: BlogPost[] = [
-    {
-      id: 1,
-      title: "Do you Have A Passion for Photography",
-      excerpt: "Sed velit mattis ipsum mi, quam turpis porttitor duis, ipsum fusce congue at, etiam sit nec erat. Massa ut in risus mi, dictum nam odio elementum, massa amet et libero...",
-      author: "Martin Gray",
-      date: "May 31, 2019",
-      image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&h=250&fit=crop",
-      categories: ["BEAUTY", "LIFESTYLE"],
-      views: 1250,
-      likes: 89,
-      comments: 15
-    },
-    {
-      id: 2,
-      title: "Notify What Makes You Happy, Smile More!",
-      excerpt: "Sed velit mattis ipsum mi, quam turpis porttitor duis, ipsum fusce congue at, etiam sit nec erat. Massa ut in risus mi, dictum nam odio elementum, massa amet et libero...",
-      author: "Martin Gray",
-      date: "May 30, 2019",
-      image: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=250&fit=crop",
-      categories: ["LIFESTYLE", "TRAVEL"],
-      views: 2100,
-      likes: 156,
-      comments: 23
-    },
-    {
-      id: 3,
-      title: "Fashion Elements In This Right Summer",
-      excerpt: "Discover the latest fashion trends that will make your summer wardrobe stand out with vibrant colors and comfortable styles...",
-      author: "Sarah Johnson",
-      date: "May 27, 2019",
-      image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=250&fit=crop",
-      categories: ["FASHION", "LIFESTYLE"],
-      views: 850,
-      likes: 67,
-      comments: 12
-    },
-    {
-      id: 4,
-      title: "Understanding My Brand, I Go Beyond The Surface",
-      excerpt: "Building a personal brand goes deeper than just aesthetics. It's about creating authentic connections and meaningful experiences...",
-      author: "David Chen",
-      date: "May 24, 2019",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
-      categories: ["BUSINESS", "BRANDING"],
-      views: 1800,
-      likes: 134,
-      comments: 28
-    },
-    {
-      id: 5,
-      title: "The Art of Minimalist Living",
-      excerpt: "Embracing simplicity in our daily lives can lead to greater happiness and reduced stress. Learn how to declutter your space and mind...",
-      author: "Emma Wilson",
-      date: "May 20, 2019",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=250&fit=crop",
-      categories: ["LIFESTYLE", "WELLNESS"],
-      views: 3200,
-      likes: 245,
-      comments: 41
-    },
-    {
-      id: 6,
-      title: "Digital Marketing Trends for 2019",
-      excerpt: "Stay ahead of the curve with these emerging digital marketing strategies that are reshaping how brands connect with their audiences...",
-      author: "Michael Rodriguez",
-      date: "May 15, 2019",
-      image: "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=400&h=250&fit=crop",
-      categories: ["MARKETING", "DIGITAL"],
-      views: 2800,
-      likes: 189,
-      comments: 35
-    }
-  ];
+const blogs = Array.from({ length: 20 }, (_, i) => ({
+  id: i + 1,
+  title: `Blog Post ${i + 1}: Latest Tech Trends`,
+  excerpt: "Discover the latest innovations and trends shaping the future of technology and digital commerce...",
+  content: "Full article content would go here with detailed insights and analysis...",
+  date: `2025-09-${(i % 30) + 1}`,
+  author: `Author ${(i % 5) + 1}`,
+  comments: Math.floor(Math.random() * 20) + 1,
+  views: Math.floor(Math.random() * 200) + 50,
+  image: blogImages[i % blogImages.length],
+  category: ["Technology", "Business", "Design", "Marketing", "E-commerce"][i % 5],
+  readTime: Math.floor(Math.random() * 10) + 2,
+}));
 
-  const comments: Comment[] = [
-    { id: 1, postId: 1, author: "Alice Brown", content: "Great tips for aspiring photographers!", date: "June 1, 2019" },
-    { id: 2, postId: 2, author: "John Smith", content: "This really made me smile today!", date: "May 31, 2019" },
-    { id: 3, postId: 4, author: "Lisa Wang", content: "Excellent insights on personal branding.", date: "May 25, 2019" },
-    { id: 4, postId: 5, author: "Tom Johnson", content: "Minimalism changed my life!", date: "May 21, 2019" },
-    { id: 5, postId: 6, author: "Sarah Kim", content: "Very informative marketing strategies.", date: "May 16, 2019" }
-  ];
+// Dummy sidebar data
+const recentBlogs = blogs.slice(-5);
+const popularBlogs = blogs.sort((a, b) => b.views - a.views).slice(0, 5);
+const commentsData = blogs
+  .map((b) => ({
+    blogId: b.id,
+    text: `Great insights on ${b.category}! Thanks for sharing...`,
+    author: `User${b.id}`,
+  }))
+  .slice(0, 5);
 
-  const filteredPosts = useMemo(() => {
-    return blogPosts.filter(post =>
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.categories.some(cat => cat.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
-  }, [searchQuery]);
+export default function BlogPage() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const blogsPerPage = 6;
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
-  const getSidebarContent = () => {
-    switch (activeTab) {
-      case 'recent':
-        return blogPosts
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-          .slice(0, 4);
-      case 'popular':
-        return blogPosts
-          .sort((a, b) => b.views - a.views)
-          .slice(0, 4);
-      case 'comments':
-        return comments.slice(0, 5);
-      default:
-        return [];
-    }
-  };
-
-  const CategoryTag: React.FC<{ category: string }> = ({ category }) => (
-    <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mr-2 mb-2">
-      {category}
-    </span>
+  const [sidebarTab, setSidebarTab] = useState<"recent" | "popular" | "comments">(
+    "recent"
   );
 
-  const BlogCard: React.FC<{ post: BlogPost }> = ({ post }) => (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-      <div className="relative">
-        <img 
-          src={post.image} 
-          alt={post.title}
-          className="w-full h-64 object-cover"
-        />
-        <div className="absolute top-4 left-4">
-          {post.categories.map(category => (
-            <CategoryTag key={category} category={category} />
-          ))}
-        </div>
-      </div>
-      
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 cursor-pointer transition-colors">
-          {post.title}
-        </h3>
-        
-        <p className="text-gray-600 mb-4 line-clamp-3">
-          {post.excerpt}
-        </p>
-        
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center">
-              <User className="w-4 h-4 mr-1" />
-              {post.author}
-            </div>
-            <div className="flex items-center">
-              <Calendar className="w-4 h-4 mr-1" />
-              {post.date}
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <button className="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
-            CONTINUE READING
-          </button>
-          
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <div className="flex items-center">
-              <Eye className="w-4 h-4 mr-1" />
-              {post.views}
-            </div>
-            <div className="flex items-center">
-              <Heart className="w-4 h-4 mr-1" />
-              {post.likes}
-            </div>
-            <div className="flex items-center">
-              <MessageCircle className="w-4 h-4 mr-1" />
-              {post.comments}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const SidebarPost: React.FC<{ post: BlogPost }> = ({ post }) => (
-    <div className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors">
-      <img 
-        src={post.image} 
-        alt={post.title}
-        className="w-16 h-16 object-cover rounded-lg"
-      />
-      <div className="flex-1">
-        <h4 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-2">
-          {post.title}
-        </h4>
-        <p className="text-xs text-gray-500">{post.date}</p>
-      </div>
-    </div>
-  );
-
-  const SidebarComment: React.FC<{ comment: Comment }> = ({ comment }) => {
-    const post = blogPosts.find(p => p.id === comment.postId);
-    return (
-      <div className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors">
-        <p className="text-sm text-gray-700 mb-2">"{comment.content}"</p>
-        <div className="flex justify-between text-xs text-gray-500">
-          <span>by {comment.author}</span>
-          <span>on "{post?.title.slice(0, 20)}..."</span>
-        </div>
-      </div>
-    );
-  };
+  // Get blogs for current page
+  const startIndex = (currentPage - 1) * blogsPerPage;
+  const currentBlogs = blogs.slice(startIndex, startIndex + blogsPerPage);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-8 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">Our Blog</h1>
-          <nav className="text-sm text-gray-500">
-            <span>Home</span> / <span>Blog</span>
-          </nav>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Latest Blog Posts</h1>
+          <p className="text-gray-600 text-lg">Stay updated with the latest trends and insights</p>
+          <div className="w-20 h-1 bg-yellow-400 mx-auto mt-4"></div>
         </div>
-      </header>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main Content */}
+          {/* Blog Cards */}
           <div className="lg:col-span-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredPosts.map(post => (
-                <BlogCard key={post.id} post={post} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {currentBlogs.map((blog) => (
+                <article
+                  key={blog.id}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer"
+                  onMouseEnter={() => setHoveredCard(blog.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                >
+                  {/* Image Container with Hover Effects */}
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src={image2}
+                      alt={blog.title}
+                      className={`w-full h-full object-cover transition-all duration-500 ${
+                        hoveredCard === blog.id
+                          ? 'scale-110 brightness-75'
+                          : 'scale-100 brightness-100'
+                      }`}
+                    />
+                    
+                    {/* Overlay */}
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${
+                      hoveredCard === blog.id ? 'opacity-100' : 'opacity-0'
+                    }`}></div>
+
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-yellow-400 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                        {blog.category}
+                      </span>
+                    </div>
+
+                    {/* Hover Content */}
+                    <div className={`absolute bottom-4 left-4 right-4 text-white transition-all duration-300 transform ${
+                      hoveredCard === blog.id 
+                        ? 'translate-y-0 opacity-100' 
+                        : 'translate-y-4 opacity-0'
+                    }`}>
+                      <p className="text-sm mb-2 line-clamp-2">{blog.content}</p>
+                      <button className="bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-300 transition-colors">
+                        Read More
+                      </button>
+                    </div>
+
+                    {/* Read Time Badge */}
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-black/70 text-white px-2 py-1 rounded text-xs">
+                        {blog.readTime} min read
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <User size={14} className="text-gray-500" />
+                      <span className="text-sm text-gray-600">{blog.author}</span>
+                      <Calendar size={14} className="text-gray-500 ml-2" />
+                      <span className="text-sm text-gray-600">{blog.date}</span>
+                    </div>
+
+                    <h2 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-yellow-600 transition-colors">
+                      {blog.title}
+                    </h2>
+                    
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                      {blog.excerpt}
+                    </p>
+
+                    <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-4 text-gray-500 text-sm">
+                        <span className="flex items-center gap-1">
+                          <Eye size={14} />
+                          {blog.views}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MessageCircle size={14} />
+                          {blog.comments}
+                        </span>
+                      </div>
+                      
+                      <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        hoveredCard === blog.id ? 'bg-yellow-400 scale-150' : 'bg-gray-300'
+                      }`}></div>
+                    </div>
+                  </div>
+                </article>
               ))}
             </div>
+
+            {/* Enhanced Pagination */}
+            <div className="flex justify-center items-center gap-2 mt-12">
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:-translate-y-0.5"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+              >
+                <ChevronLeft size={16} />
+                <span className="hidden sm:inline">Previous</span>
+              </button>
+
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                const pageNum = i + Math.max(1, currentPage - 2);
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`w-10 h-10 rounded-lg font-semibold transition-all duration-200 ${
+                      currentPage === pageNum
+                        ? "bg-yellow-400 text-gray-800 shadow-lg scale-110"
+                        : "bg-white text-gray-600 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:-translate-y-0.5"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+              >
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              {/* Search */}
-              <div className="bg-white rounded-lg shadow p-6 mb-6">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
-                </div>
+          {/* Enhanced Sidebar */}
+          <div className="space-y-6">
+            {/* Tabs */}
+            <div className="bg-white rounded-2xl shadow-lg p-2">
+              <div className="grid grid-cols-3 gap-1">
+                <button
+                  onClick={() => setSidebarTab("recent")}
+                  className={`py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    sidebarTab === "recent"
+                      ? "bg-yellow-400 text-gray-800 shadow-md"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Recent
+                </button>
+                <button
+                  onClick={() => setSidebarTab("popular")}
+                  className={`py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    sidebarTab === "popular"
+                      ? "bg-yellow-400 text-gray-800 shadow-md"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Popular
+                </button>
+                <button
+                  onClick={() => setSidebarTab("comments")}
+                  className={`py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    sidebarTab === "comments"
+                      ? "bg-yellow-400 text-gray-800 shadow-md"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Comments
+                </button>
               </div>
+            </div>
 
-              {/* Tabs */}
-              <div className="bg-white rounded-lg shadow">
-                <div className="flex border-b">
-                  {[
-                    { key: 'recent', label: 'Recent' },
-                    { key: 'popular', label: 'Popular' },
-                    { key: 'comments', label: 'Comments' }
-                  ].map(tab => (
-                    <button
-                      key={tab.key}
-                      onClick={() => setActiveTab(tab.key as any)}
-                      className={`flex-1 py-3 px-4 text-sm font-medium transition-colors ${
-                        activeTab === tab.key
-                          ? 'text-blue-600 border-b-2 border-blue-600'
-                          : 'text-gray-500 hover:text-gray-700'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
+            {/* Tab Content */}
+            <div className="bg-white shadow-lg rounded-2xl p-6">
+              <h3 className="font-bold text-gray-800 mb-4 capitalize">
+                {sidebarTab} Posts
+              </h3>
+              
+              <div className="space-y-4">
+                {sidebarTab === "recent" &&
+                  recentBlogs.map((b) => (
+                    <div key={b.id} className="group cursor-pointer">
+                      <div className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <img 
+                          src={image3} 
+                          alt={b.title}
+                          className="w-12 h-12 rounded-lg object-cover"
+                        />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-800 group-hover:text-yellow-600 transition-colors line-clamp-2">
+                            {b.title}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">{b.date}</p>
+                        </div>
+                      </div>
+                    </div>
                   ))}
-                </div>
 
-                <div className="p-4">
-              {activeTab === 'comments' ? (
-                <div className="space-y-2">
-                  {(getSidebarContent() as Comment[]).map(comment => (
-                    <SidebarComment key={comment.id} comment={comment} />
+                {sidebarTab === "popular" &&
+                  popularBlogs.map((b) => (
+                    <div key={b.id} className="group cursor-pointer">
+                      <div className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <img 
+                          src={image4} 
+                          alt={b.title}
+                          className="w-12 h-12 rounded-lg object-cover"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-start gap-2">
+                            <Flame size={14} className="text-orange-500 mt-0.5 flex-shrink-0" />
+                            <div>
+                              <p className="text-sm font-medium text-gray-800 group-hover:text-yellow-600 transition-colors line-clamp-2">
+                                {b.title}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">{b.views} views</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   ))}
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {(getSidebarContent() as BlogPost[]).map(post => (
-                    <SidebarPost key={post.id} post={post} />
+
+                {sidebarTab === "comments" &&
+                  commentsData.map((c, i) => (
+                    <div key={i} className="p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                      <p className="text-sm text-gray-700 italic mb-2">"{c.text}"</p>
+                      <p className="text-xs text-gray-500">- {c.author}</p>
+                    </div>
                   ))}
-                </div>
-              )}
+              </div>
+            </div>
+
+            {/* Newsletter Signup */}
+            <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-2xl p-6 text-gray-800">
+              <h3 className="font-bold mb-2">Stay Updated!</h3>
+              <p className="text-sm mb-4">Get the latest posts delivered to your inbox.</p>
+              <div className="space-y-2">
+                <input 
+                  type="email" 
+                  placeholder="Your email address"
+                  className="w-full px-3 py-2 rounded-lg border-0 focus:ring-2 focus:ring-white text-sm"
+                />
+                <button className="w-full bg-gray-800 text-white py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
+                  Subscribe
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
       </div>
     </div>
   );
-};
-
-export default BlogApp;
+}

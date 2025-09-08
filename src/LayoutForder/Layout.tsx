@@ -7,6 +7,7 @@ import BlogPost from "../components/Blog";
 import ProductCard from "../components/product";
 import BestSellingProducts from "../components/sellingproduct";
 import Product1 from "../components/freeshiping";
+import Footer2 from "../components/footer2";
 
 
 
@@ -25,9 +26,8 @@ const LayoutHandling = () => {
          <ProductCard/>
          <BestSellingProducts/>
             <Product1/>
-         
-         
-            <Footer />
+             <Footer />
+            <Footer2/>
 
         </div>
     );
