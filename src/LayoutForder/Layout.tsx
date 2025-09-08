@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import Topbar from "../components/Topbar";
-import BlogPost from "../components/Blog";
 
 import ProductCard from "../components/product";
 import BestSellingProducts from "../components/sellingproduct";

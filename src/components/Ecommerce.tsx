@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, ChevronDown, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Card from './card';
+
 
 interface CategoryItem {
   name: string;
