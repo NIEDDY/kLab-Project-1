@@ -1,6 +1,6 @@
 
 import React from "react";
-
+import image from "../assets/visa.png";
 const Footer2: React.FC = () => {
   return (
     <footer className="bg-white border-t py-4 px-6 flex flex-col md:flex-row items-center justify-between">
@@ -11,7 +11,7 @@ const Footer2: React.FC = () => {
 
       {/* Right side - payment icons */}
       <div className="flex space-x-3 mt-3 md:mt-0">
-        <img src="/visa.pjg" alt="Visa" className="h-6" />
+        <img src={image} alt="Visa" className="h-6" />
         
       </div>
     </footer>
