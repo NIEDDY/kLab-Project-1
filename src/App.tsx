@@ -27,6 +27,7 @@ function App() {
           <Route path="freeshipping" element={<Product1 />} />
           <Route path="home" element={<Home />} />
           <Route path= "Pages"element={<KapeePage/>}/>
+      
         </Route>
       </Routes>
     </BrowserRouter>

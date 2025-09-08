@@ -20,6 +20,7 @@ const LayoutHandling = () => {
             <Navbar />
             <main className="flex-grow">
                 <Outlet />
+                
             </main>
             {/* Optionally include Contact here or in specific routes */}
             {/* <Contact /> */}

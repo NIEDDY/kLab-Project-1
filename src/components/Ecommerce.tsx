@@ -12,6 +12,7 @@ interface CategoryItem {
 const EcommerceHero: React.FC = () => {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null); // Fixed: Added missing state
 
   const categories: CategoryItem[] = [
     { name: "Men's Clothing", hasSubmenu: true },
@@ -28,8 +29,8 @@ const EcommerceHero: React.FC = () => {
   const navigationItems = [
     { name: "HOME", to: "/home", hasDropdown: true },
     { name: "SHOP", to: "/shop", hasDropdown: true },
-    { name: "PAGES", path:"/kapeepage",to: "/pages", hasDropdown: true },
-    { name: "BLOG", to: "/BLOG", hasDropdown: true },
+    { name: "PAGES", to: "/pages", hasDropdown: true }, // Fixed: removed path property
+    { name: "BLOG", to: "/blog", hasDropdown: true }, // Fixed: consistent casing
     { name: "ELEMENTS", to: "/elements", hasDropdown: true },
     { name: "BUY NOW", to: "/buy", hasDropdown: false }
   ];
@@ -65,7 +66,7 @@ const EcommerceHero: React.FC = () => {
             <div className="hidden md:flex items-center space-x-8">
               {navigationItems.map((item, index) => (
                 <div key={index} className="relative group">
-                  <Link  to={item.to}>
+                  <Link to={item.to}>
                     <button className="flex items-center gap-1 text-gray-700 hover:text-gray-900 font-medium py-2">
                       {item.name}
                       {item.hasDropdown && <ChevronDown className="w-4 h-4" />}
@@ -140,16 +141,12 @@ const EcommerceHero: React.FC = () => {
 
             {/* Headphones Image Section */}
             <div className="flex-1 flex justify-center items-center relative">
-              <div className="relative">
-                <div className="flex-1 flex justify-center items-center relative">
-                  <div className="relative z-10 w-80 h-80 flex items-center justify-center">
-                    <img
-                      src="./public/headset.jpg"
-                      alt="headset"
-                      className="w-96 ml-10 animate-float"
-                    />
-                  </div>
-                </div>
+              <div className="relative z-10 w-80 h-80 flex items-center justify-center">
+                <img
+                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  alt="headset"
+                  className="w-96 ml-10 animate-float"
+                />
               </div>
             </div>
 
@@ -159,25 +156,140 @@ const EcommerceHero: React.FC = () => {
             <div className="absolute top-32 left-20 w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
           </div>
         </div>
-           {/* Card Section */}
-     
       </div>
-       <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="flex justify-center gap-6 px-6 py-10">
-  <Card
-    title="DIGITAL SMART"
-    subtitle="WIRELESS SPEAKER"
-    discount="MIN. 30-75% OFF"
-    image="speaker.jpg"
-  />
-  <Card
-    title="DIGITAL SMART"
-    subtitle="SMART WATCH"
-    discount="MIN. 30-75% OFF"
-    image="watch.jpg"
-  />
-</div>
 
+      {/* Product Cards Section - Fixed: Proper structure */}
+      <div className="max-w-7xl mx-auto px-8 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Wireless Speaker Card */}
+          <div 
+            className="flex-1 bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer"
+            onMouseEnter={() => setHoveredCard('speaker')}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div className="flex flex-col lg:flex-row h-full">
+              {/* Content Section */}
+              <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center">
+                <div className="mb-6">
+                  <p className={`text-yellow-500 font-semibold text-sm mb-2 tracking-wider uppercase transition-all duration-300 ${
+                    hoveredCard === 'speaker' ? 'transform -translate-y-1' : ''
+                  }`}>
+                    Digital Smart
+                  </p>
+                  <h2 className={`text-3xl lg:text-4xl font-bold text-gray-900 mb-4 transition-all duration-300 ${
+                    hoveredCard === 'speaker' ? 'text-teal-600 transform -translate-y-1' : ''
+                  }`}>
+                    WIRELESS SPEAKER
+                  </h2>
+                  <p className={`text-gray-600 text-lg font-medium transition-all duration-300 ${
+                    hoveredCard === 'speaker' ? 'text-teal-500 transform -translate-y-1' : ''
+                  }`}>
+                    MIN. 30-75% OFF
+                  </p>
+                </div>
+                <button className={`bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-4 px-8 rounded-lg transition-all duration-300 self-start hover:scale-110 hover:shadow-lg ${
+                  hoveredCard === 'speaker' ? 'animate-pulse' : ''
+                }`}>
+                  SHOP NOW
+                </button>
+              </div>
+              
+              {/* Image Section */}
+              <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center p-8 relative overflow-hidden">
+                {/* Floating circles background animation */}
+                <div className="absolute inset-0">
+                  <div className={`absolute top-10 left-10 w-20 h-20 bg-teal-200 rounded-full opacity-30 transition-all duration-700 ${
+                    hoveredCard === 'speaker' ? 'animate-bounce' : ''
+                  }`}></div>
+                  <div className={`absolute bottom-16 right-12 w-16 h-16 bg-yellow-200 rounded-full opacity-40 transition-all duration-1000 ${
+                    hoveredCard === 'speaker' ? 'animate-ping' : ''
+                  }`}></div>
+                  <div className={`absolute top-1/2 left-8 w-12 h-12 bg-blue-200 rounded-full opacity-25 transition-all duration-500 ${
+                    hoveredCard === 'speaker' ? 'animate-pulse' : ''
+                  }`}></div>
+                </div>
+                
+                <div className="relative z-10">
+                  <img 
+                    src="https://images.unsplash.com/photo-1589003077984-894e133dabab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                    alt="Wireless Bluetooth Speaker" 
+                    className={`w-64 h-80 object-contain drop-shadow-2xl transition-all duration-500 ${
+                      hoveredCard === 'speaker' ? 'transform rotate-6 scale-110' : ''
+                    }`}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Watch Charger Card */}
+          <div 
+            className="flex-1 bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer"
+            onMouseEnter={() => setHoveredCard('watch')}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div className="flex flex-col lg:flex-row h-full">
+              {/* Content Section */}
+              <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center">
+                <div className="mb-6">
+                  <p className={`text-yellow-500 font-semibold text-sm mb-2 tracking-wider uppercase transition-all duration-300 ${
+                    hoveredCard === 'watch' ? 'transform -translate-y-1' : ''
+                  }`}>
+                    Digital Smart
+                  </p>
+                  <h2 className={`text-3xl lg:text-4xl font-bold text-gray-900 mb-4 transition-all duration-300 ${
+                    hoveredCard === 'watch' ? 'text-blue-600 transform -translate-y-1' : ''
+                  }`}>
+                    WATCH CHARGER
+                  </h2>
+                  <p className={`text-gray-600 text-lg font-medium transition-all duration-300 ${
+                    hoveredCard === 'watch' ? 'text-blue-500 transform -translate-y-1' : ''
+                  }`}>
+                    UP TO 75% OFF
+                  </p>
+                </div>
+                <button className={`bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-4 px-8 rounded-lg transition-all duration-300 self-start hover:scale-110 hover:shadow-lg ${
+                  hoveredCard === 'watch' ? 'animate-pulse' : ''
+                }`}>
+                  SHOP NOW
+                </button>
+              </div>
+              
+              {/* Image Section */}
+              <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center p-8 relative overflow-hidden">
+                {/* Floating circles background animation */}
+                <div className="absolute inset-0">
+                  <div className={`absolute top-12 right-10 w-24 h-24 bg-blue-200 rounded-full opacity-30 transition-all duration-600 ${
+                    hoveredCard === 'watch' ? 'animate-spin' : ''
+                  }`}></div>
+                  <div className={`absolute bottom-20 left-8 w-18 h-18 bg-purple-200 rounded-full opacity-35 transition-all duration-800 ${
+                    hoveredCard === 'watch' ? 'animate-bounce' : ''
+                  }`}></div>
+                  <div className={`absolute top-1/3 right-16 w-14 h-14 bg-pink-200 rounded-full opacity-25 transition-all duration-1200 ${
+                    hoveredCard === 'watch' ? 'animate-ping' : ''
+                  }`}></div>
+                </div>
+                
+                <div className="relative z-10">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                    alt="Apple Watch with Wireless Charger" 
+                    className={`w-64 h-64 object-contain drop-shadow-2xl transition-all duration-500 ${
+                      hoveredCard === 'watch' ? 'transform -rotate-3 scale-110' : ''
+                    }`}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating animation elements */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-yellow-400 rounded-full animate-ping opacity-60"></div>
+          <div className="absolute top-3/4 right-1/3 w-3 h-3 bg-blue-400 rounded-full animate-bounce opacity-40"></div>
+          <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-teal-400 rounded-full animate-pulse opacity-50"></div>
+        </div>
       </div>
     </div>
   );
