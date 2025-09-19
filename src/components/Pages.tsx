@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Truck, Headphones, RotateCcw, Monitor, Zap, BarChart3, Edit, Headset, Code, Star } from 'lucide-react';
+import { Check, Truck, Headphones, RotateCcw } from 'lucide-react';
 
 const KapeePage: React.FC = () => {
   return (

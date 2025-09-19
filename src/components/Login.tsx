@@ -1,13 +1,24 @@
-const LoginForm = () => {
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Mock login
+    navigate('/dashboard');
+  };
+
   return (
-    <>
-      <form className="flex flex-col gap-3 mt-20 w-[20rem] h-[15rem] p1-20">
-        <input type="email" placeholder="Username" className="w-[15rem] p-1 border border-stone-500 rounded-none"/>
-        <input type="password" placeholder="Password" className="w-[14rem] p-1 border border-slate-500 rounded-none" />
-        <button type="submit">Login</button>
+    <div className="flex justify-center items-center min-h-screen">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-[20rem] p-6 border border-gray-300 rounded">
+        <input type="email" placeholder="Username" className="p-2 border border-gray-300 rounded" required />
+        <input type="password" placeholder="Password" className="p-2 border border-gray-300 rounded" required />
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Login</button>
       </form>
-      <span>If you do not have Account <span>Register</span></span>
-    </>
+      <span className="mt-4">If you do not have an account, <a href="/register" className="text-blue-500">Register</a></span>
+    </div>
   );
 };
 

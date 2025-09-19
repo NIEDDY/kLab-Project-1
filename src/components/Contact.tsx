@@ -34,7 +34,7 @@ const ContactUs: React.FC = () => {
       } else {
         setStatus("error");
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
     }
   };

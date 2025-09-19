@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+// src/pages/Shop.tsx
+import React, { useState } from "react";
+import { useOrders } from "../context/OrdersContext"; // ✅ import context
 
 const products = [
-  { id: 1, name: 'Laptop', price: '$49.99', image: './aa.jpg' },
-  { id: 2, name: 'Desktop 2', price: '$29.99', image: './2.jpg' },
-  { id: 3, name: 'Product 3', price: '$19.99', image: './co.jpg' },
-  { id: 4, name: ' Smart TV', price: '$99.99', image: './smart tv.jpg' },
-  { id: 5, name: 'Watch', price: '$199.99', image: './Apple-Watch.jpg' },
-  { id: 6, name: ' Comera', price: '$59.99', image: './5.jpg' },
+  { id: 1, name: "Laptop", price: "$49.99", image: "./aa.jpg" },
+  { id: 2, name: "Desktop 2", price: "$29.99", image: "./2.jpg" },
+  { id: 3, name: "Product 3", price: "$19.99", image: "./co.jpg" },
+  { id: 4, name: "Smart TV", price: "$99.99", image: "./smart tv.jpg" },
+  { id: 5, name: "Watch", price: "$199.99", image: "./Apple-Watch.jpg" },
+  { id: 6, name: "Comera", price: "$59.99", image: "./5.jpg" },
 ];
 
 const MyShop: React.FC = () => {
+  const { addOrder } = useOrders(); // ✅ grab addOrder
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 4;
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const totalPages = Math.ceil(products.length / productsPerPage);
 
@@ -27,16 +33,41 @@ const MyShop: React.FC = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  // ✅ Handle Buy Now → just add order to context
+  const handleBuyNow = (product: { id: number; name: string; price: string }) => {
+    const newOrder = {
+      id: Date.now(), // unique ID
+      customer: "Guest User", // or fetch from auth context later
+      product: product.name,
+      amount: parseFloat(product.price.replace("$", "")), // convert to number
+      status: "Pending" as const,
+      date: new Date().toISOString().split("T")[0], // YYYY-MM-DD
+    };
+
+    addOrder(newOrder); // add order into context
+    // ❌ Do NOT navigate away, stay on shop page
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">My Shop</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {currentProducts.map((product) => (
-          <div key={product.id} className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-            <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded-md mb-4" />
+          <div
+            key={product.id}
+            className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition"
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-48 object-cover rounded-md mb-4"
+            />
             <h2 className="text-xl font-semibold">{product.name}</h2>
             <p className="text-yellow-600 font-bold mb-2">{product.price}</p>
-            <button className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-2 rounded transition">
+            <button
+              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-2 rounded transition"
+              onClick={() => handleBuyNow(product)} // ✅ add to orders only
+            >
               Buy Now
             </button>
           </div>

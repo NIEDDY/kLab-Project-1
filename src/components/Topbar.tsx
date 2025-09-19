@@ -16,8 +16,8 @@ const Topbar: React.FC = () => {
       </div>
       <div className="flex space-x-4">
         <span>WELCOME TO OUR STORE!</span>
-        <a href="#" className="hover:underline">BLOG</a>
-        <a href="#" className="hover:underline">FAQ</a>
+        {/* <a href="#" className="hover:underline">BLOG</a>
+        <a href="#" className="hover:underline">FAQ</a> */}
 
      
         <Link to="/Contact" className="hover:underline">

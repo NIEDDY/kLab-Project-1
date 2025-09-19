@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Search, User, ShoppingCart, X } from "lucide-react";
+import { FiLogIn } from "react-icons/fi";
+import { Search, ShoppingCart, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar: React.FC = () => {
@@ -27,8 +28,18 @@ const Navbar: React.FC = () => {
 
       {/* Right Section */}
       <div className="flex items-center space-x-6">
+        {/* Login */}
+        <Link to="/login" className="flex items-center text-sm font-bold hover:text-blue-600 transition">
+          <FiLogIn className="mr-1" />
+          Login
+        </Link>
+        {/* Sign Up */}
+        <Link to="/register" className="flex items-center text-sm font-bold hover:text-blue-600 transition ml-4">
+          Sign Up
+        </Link>
         {/* Sign In & Sign Up */}
-        <div className="flex items-center space-x-3">
+
+        {/* <div className="flex items-center space-x-3">
           <div
             className="flex items-center space-x-1 cursor-pointer hover:text-blue-600 transition"
             onClick={() => setShowSignIn(true)}
@@ -42,7 +53,8 @@ const Navbar: React.FC = () => {
           >
             Sign Up
           </button>
-        </div>
+        </div> */}
+        
 
         {/* Cart */}
         <div className="flex items-center space-x-1 cursor-pointer hover:text-blue-600 transition">
