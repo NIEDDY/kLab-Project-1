@@ -56,7 +56,7 @@ const EcommerceHero: React.FC = () => {
             {/* Categories Button */}
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="bg-yellow-400 hover:bg-pink-600 text-gray-900 px-6 py-3 flex items-center gap-3 font-semibold transition-colors"
+              className="bg-yellow-400 hover:bg-blue-600 text-gray-900 px-6 py-3 flex items-center gap-3 font-semibold transition-colors"
             >
               <Menu className="w-5 h-5" />
               SHOP BY CATEGORIES
@@ -141,9 +141,10 @@ const EcommerceHero: React.FC = () => {
 
             {/* Headphones Image Section */}
             <div className="flex-1 flex justify-center items-center relative">
-              <div className="relative z-10 w-80 h-80 flex items-center justify-center">
+              <div className="relative z-10 w-60 h-60 flex items-center justify-center">
                 <img
-                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80
+"
                   alt="headset"
                   className="w-96 ml-10 animate-float"
                 />

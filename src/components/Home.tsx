@@ -9,9 +9,18 @@ interface CategoryItem {
 
 const Home: React.FC = () => {
   const categories: CategoryItem[] = [
-    { name: 'Men', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face' },
-    { name: 'Women', image: 'https://images.unsplash.com/photo-1494790108755-2616b612b922?w=150&h=150&fit=crop&crop=face' },
-    { name: 'Shoes', image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=150&h=150&fit=crop' },
+     { 
+    name: 'Men', 
+    image: 'https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?w=150&h=150&fit=crop&crop=faces' 
+  },
+  { 
+    name: 'Women', 
+    image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=150&h=150&fit=crop&crop=faces' 
+  },
+  { 
+    name: 'Shoes', 
+    image: 'https://images.unsplash.com/photo-1600180758895-ec20321d1f53?w=150&h=150&fit=crop' 
+  },
     { name: 'Bags & Backpacks', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&h=150&fit=crop' },
     { name: 'Watches', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=150&h=150&fit=crop' },
     { name: 'Jewellery', image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=150&h=150&fit=crop' },
@@ -56,8 +65,8 @@ const Home: React.FC = () => {
                 <div className="relative">
                   <div className="aspect-square max-w-md mx-auto">
                     <img
-                      src="https://images.unsplash.com/photo-1521577352947-9bb58764b69a?w=500&h=500&fit=crop"
-                      alt="Woman in summer outfit with pink hat"
+                      src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&h=500&fit=crop" 
+  alt="Woman in summer outfit with pink hat" 
                       className="w-full h-full object-cover rounded-lg"
                     />
                   </div>

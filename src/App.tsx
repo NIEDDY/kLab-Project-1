@@ -6,10 +6,11 @@ import BlogPage from "./components/Blog";
 import ProductCard from "./components/product";
 import Elements from "./components/Element";
 import BestSellingProducts from "./components/sellingproduct";
-import ShopItem from "./components/Shop";
+import ShopItem from "./components/shop";
 import Product1 from "./components/freeshiping";
 import Home from "./components/Home";
 import KapeePage from "./components/Pages";
+import LoginForm from "./components/Login";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="freeshipping" element={<Product1 />} />
           <Route path="home" element={<Home />} />
           <Route path= "Pages"element={<KapeePage/>}/>
+          <Route path="login"element={<LoginForm/>}/>
       
         </Route>
       </Routes>

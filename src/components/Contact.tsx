@@ -5,11 +5,38 @@ const ContactUs: React.FC = () => {
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., sending data to an API)
-    console.log({ name, email, subject, message });
+    setStatus("sending");
+
+    try {
+      const response = await fetch("https://formspree.io/f/xblkwewg", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          message,
+        }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      setStatus("error");
+    }
   };
 
   return (
@@ -17,7 +44,9 @@ const ContactUs: React.FC = () => {
       {/* Header */}
       <header className="bg-white shadow-sm border-b debug-header">
         <div className="max-w-7xl mx-auto px-4 py-8 text-center debug-header-inner">
-          <h1 className="text-5xl font-bold text-gray-900 mb-2 debug-header-title">Contact Us</h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-2 debug-header-title">
+            Contact Us
+          </h1>
           <nav className="text-sm text-gray-500 debug-header-nav">
             <span>Home</span> / <span>Contact Us</span>
           </nav>
@@ -81,17 +110,29 @@ const ContactUs: React.FC = () => {
                   rows={4}
                 />
               </div>
-              <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded">
-                Send Message
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="bg-blue-600 text-white py-2 px-4 rounded"
+              >
+                {status === "sending" ? "Sending..." : "Send Message"}
               </button>
             </form>
+
+            {status === "success" && (
+              <p className="text-green-600 mt-4">Message sent successfully!</p>
+            )}
+            {status === "error" && (
+              <p className="text-red-600 mt-4">Oops! Something went wrong.</p>
+            )}
           </div>
 
           {/* Right Side: Contact Information */}
           <div className="w-full md:w-1/3 pl-0 md:pl-6">
             <h2 className="text-2xl font-bold mb-4">Get In Touch</h2>
             <p className="mb-4 text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium nisl feugiat nisl gravida, eget rutrum ligula placerat. Aenean id elit dolor. Suspendisse malesuada varius elit.
+              For more Information or/and any query, please contact us at the
+              following address: niedd03@gmail.com
             </p>
             <h3 className="font-semibold">Our Office</h3>
             <p className="mb-2">Address: 106 Street, New City, United States.</p>
@@ -104,17 +145,9 @@ const ContactUs: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Call to Action Section */}
-      <div className="bg-blue-900 text-white text-center py-12">
-        <h2 className="text-3xl font-bold mb-2">Want To Work With Us?</h2>
-        <p className="mb-6">Feel free to reach us with the contact form!</p>
-        <button className="bg-transparent border border-white px-6 py-2 rounded hover:bg-white hover:text-blue-900 transition-colors">
-          CONTACT US
-        </button>
-      </div>
     </div>
   );
 };
 
 export default ContactUs;
+
